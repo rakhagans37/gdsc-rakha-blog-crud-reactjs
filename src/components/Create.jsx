@@ -10,14 +10,14 @@ function Create({title, setTitle ,description, setDescription}) {
                 <div className="flex flex-col gap-6">
                         <label htmlFor="" className="flex flex-col items-start gap-2">
                             <h2 className="text-base font-semibold">Judul</h2>
-                            <input className="border-[0.5px] rounded-[4px] w-[590px] h-[39px]" type="text" value={title} onChange={(event) =>{
+                            <input className="ring-[0.5px] ring-black rounded-[4px] w-[590px] h-[39px] focus:ring-4 focus:ring-blue-800 px-3 py-2" type="text" value={title} onChange={(event) =>{
                                 setTitle(event.target.value);
                             }}/>
                         </label>
 
                         <label htmlFor="" className="flex flex-col items-start gap-2">
                             <h2 className="text-base font-semibold">Isi</h2>
-                            <textarea className="border-[0.5px] rounded-[4px] w-[590px] h-[265px]" type="text" value={description} onChange={(event) => {
+                            <textarea className="rounded-[4px] w-[590px] h-[265px] ring-[0.5px] ring-black focus:ring-4 focus:ring-blue-800 px-3 py-2" type="text" value={description} onChange={(event) => {
                                 setDescription(event.target.value);
                             }}/>
                         </label>
