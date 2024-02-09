@@ -3,13 +3,13 @@ import Header from "../components/Header";
 import View from "../components/View";
 import { useState } from "react";
 
-function ViewBlog({handleDelete}) {
+function ViewBlog({dataCard, handleDelete}) {
+    console.log(dataCard);
     const [searchParams]= useSearchParams();
     const [id] = useState(searchParams.get("id"));
 
     //Getting storage
-    const [data] = useState(JSON.parse(localStorage.getItem("dataCard")));
-    const [dataView] = useState(data.filter((item) => item.id == id)[0]);
+    const [dataView] = useState(dataCard.filter((item) => item.id == id)[0]);
 
     // Getting date
     const [date] = useState(new Date(dataView.date));

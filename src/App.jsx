@@ -11,68 +11,62 @@ import CreateBlog from "./pages/CreateBlog.jsx";
 import { useEffect, useState } from "react";
 import UpdateBlog from "./pages/UpdateBlog.jsx";
 import ViewBlog from "./pages/ViewBlog.jsx";
+import { addData , readDatabase, deleteData, updateData } from "./database/Database.jsx";
 
 function App() {
+    const getData = readDatabase();
     const [dataCard, setDataCard] = useState([]);
 
     useEffect(() => {
-        const data = localStorage.getItem("dataCard");
-        if (data) {
-            setDataCard(JSON.parse(data));
-        }   
+        getData.then((data) => {
+            setDataCard(data);
+        });
     }, []);
 
     function handleCreate(title, description) {
-        const dateCreate = new Date();
-        const newData = [
-            ...dataCard,
-            {
-                id: dataCard.length + 1,
-                title: title,
-                description: description,
-                date: dateCreate,
-            },
-        ];
-        
-        setDataCard(newData);
-        localStorage.setItem("dataCard", JSON.stringify(newData));
+        const newData = readDatabase();
+        addData(title, description);
+        newData.then((data) => {
+            setDataCard(data);
+        });
     }
 
     function handleDelete(id) {
-        const newData = dataCard.filter((item) => item.id != id);
-        setDataCard(newData);
-        localStorage.setItem("dataCard", JSON.stringify(newData));
+        deleteData(id);
+        const newData = readDatabase();
+        newData.then((data) => {
+            setDataCard(data);
+        });
     }
 
     function handleUpdate(id, newTitle, newDescription) {
-        const data = Array(...dataCard)
-
-        // Updating data depends on id
-        data.map((item) => {
-            if (item.id == id) {
-                item.title = newTitle;
-                item.description = newDescription;
-            }
+        updateData(id, newTitle, newDescription);
+        const newData = readDatabase();
+        newData.then((data) => {
+            setDataCard(data);
         });
-
-        setDataCard(data);
-        localStorage.setItem("dataCard", JSON.stringify(data));
     }
+    
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home dataCard={dataCard} handleDelete={handleDelete}/>} />
+                <Route
+                    path="/"
+                    element={
+                        <Home dataCard={dataCard} handleDelete={handleDelete} />
+                    }
+                />
                 <Route
                     path="/createblog"
                     element={<CreateBlog handleCreate={handleCreate} />}
                 />
                 <Route
                     path="/updateblog"
-                    element={<UpdateBlog handleUpdate={handleUpdate} />} 
+                    element={<UpdateBlog dataCard={dataCard} handleUpdate={handleUpdate} />}
                 />
-                <Route 
+                <Route
                     path="/viewblog"
-                    element={<ViewBlog handleDelete={handleDelete} />}
+                    element={<ViewBlog dataCard={dataCard} handleDelete={handleDelete} />}
                 />
             </Routes>
         </BrowserRouter>
