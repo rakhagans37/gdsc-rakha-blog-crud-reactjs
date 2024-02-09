@@ -1,19 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
-function View({ id, handleDelete, title, description, date}) {
-    // Navigate
-    const navigate = useNavigate();
-
-    //Function to handle update and delete
-    function goToUpdate() {
-        navigate(`/updateblog?id=${id}`)
-    }
-
-    function deleteBlog(){
-        handleDelete(id);
-        navigate('/');
-    }
-
+function View({ id, handleDelete, handleUpdate, title, description, date}) {
     return (
         <>
             <div className="w-screen flex-col items-center">
@@ -29,9 +14,9 @@ function View({ id, handleDelete, title, description, date}) {
                         <div className="w-full flex flex-row justify-between">
                             <h2>{date}</h2>
                             <div className="flex flex-row w-max gap-[25px]">
-                                <button className="underline font-sans font-medium text-xl" onClick={() => {goToUpdate()}}>Edit</button>
+                                <button className="underline font-sans font-medium text-xl" onClick={() => {handleUpdate(id)}}>Edit</button>
                                 <span className=" border-r border-black"></span>
-                                <button className="underline font-sans font-medium text-xl" onClick={() => {deleteBlog()}}>Hapus</button>
+                                <button className="underline font-sans font-medium text-xl" onClick={() => {handleDelete(id)}}>Hapus</button>
                             </div>
                         </div>
 

@@ -4,6 +4,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header.jsx";
 
 function Home({ dataCard, handleDelete }) {
+    const navigate = useNavigate();
+
+    function goToUpdate(id) {
+        navigate(`/updateblog?id=${id}`)
+    }
+
     return (
         <>
             <Header />
@@ -19,6 +25,7 @@ function Home({ dataCard, handleDelete }) {
                             title={item.title}
                             description={item.description}
                             handleDelete={handleDelete}
+                            handleUpdate={goToUpdate}
                             id={item.id}
                         />
                     ))}

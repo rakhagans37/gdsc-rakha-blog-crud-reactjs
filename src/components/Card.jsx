@@ -1,16 +1,11 @@
 import propTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Card({id, title, description, handleDelete}) {
+function Card({id, title, description, handleDelete, handleUpdate}) {
     const descriptionSlice = description.slice(0,55) + "..."
-    const navigate = useNavigate();
-
-    function goToUpdate() {
-        navigate(`/updateblog?id=${id}`)
-    }
 
     return (
-        <div className="w-72 h-max flex flex-col rounded-md bg-[#EDEDED] overflow-hidden">
+        <div className="w-72 h-max flex flex-col rounded-md bg-[#EDEDED] overflow-hidden shadow-md">
             <Link to={`/viewblog?id=${id}`} className="w-full h-48 bg-[#B4B4B4]">
             </Link>
             <div className="px-3 flex flex-col">
@@ -19,8 +14,8 @@ function Card({id, title, description, handleDelete}) {
                     <p className="text-black font-normal text-left text-sm mt-1 font-sans break-all">{descriptionSlice}</p>
                 </Link>
                 <div className="flex flex-row justify-between py-3">
-                    <button className="underline font-medium text-sm font-sans" onClick={() => goToUpdate()}>Edit</button>
-                    <button className="underline font-medium text-sm font-sans" onClick={() => handleDelete(id)}>Hapus</button>
+                    <button className="underline font-medium text-sm font-sans" onClick={() => {handleUpdate(id)}}>Edit</button>
+                    <button className="underline font-medium text-sm font-sans" onClick={() => {handleDelete(id)}}>Hapus</button>
                 </div>
             </div>
         </div>
