@@ -1,17 +1,23 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Update from "../components/Update";
 
 function UpdateBlog({dataCard, handleUpdate}) {
     const [searchParams] = useSearchParams();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
-    const [id] = useState(searchParams.get("id"));
-    const [dataView] = useState(dataCard.filter((item) => item.id == id)[0]);
-    const [title, setTitle] = useState(dataView.title);
-    const [description, setDescription] = useState(dataView.description);
-    console.log(dataView);
+    let id = searchParams.get("id");
+    let dataView = dataCard.filter((item) => item.id == id)[0];
 
+    useEffect(() => {
+        if (dataView) {
+            setTitle(dataView.title);
+            setDescription(dataView.description);
+        }
+    }, []);
+    
     const navigate = useNavigate();
 
     const handleSubmit = (event) =>{

@@ -17,20 +17,36 @@ import {
     deleteData,
     updateData,
 } from "./database/Database.jsx";
+import Loading from "./components/Loading.jsx";
 
 function App() {
-    const getData = readDatabase();
     const [dataCard, setDataCard] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
-    getData.then((data) => {
-        setDataCard(data);
-    });
+    useEffect(() => {
+        const getData = readDatabase();
+        getData.then((data) => {
+            setDataCard(data);
+        });
+
+        if(dataCard){
+            setTimeout(() => setIsLoading(false), 1000)
+        }
+    }, []);
+
+    if (isLoading) {
+        return (
+        <div className="w-screen h-screen flex justify-center items-center">
+            <Loading/>
+        </div>
+        )
+    }
 
     function handleCreate(title, description) {
-        const newData = readDatabase();
-
         // Update data after adding new data
         addData(title, description);
+
+        const newData = readDatabase();
         newData.then((data) => {
             setDataCard(data);
         });
