@@ -21,7 +21,7 @@ import Loading from "./components/Loading.jsx";
 
 function App() {
     const [dataCard, setDataCard] = useState([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getData = readDatabase();
@@ -29,27 +29,31 @@ function App() {
             setDataCard(data);
         });
 
-        if(dataCard){
-            setTimeout(() => setIsLoading(false), 1000)
+        if (dataCard) {
+            setTimeout(() => setIsLoading(false), 1000);
         }
     }, []);
 
     if (isLoading) {
         return (
-        <div className="w-screen h-screen flex justify-center items-center">
-            <Loading/>
-        </div>
-        )
+            <div className="w-screen h-screen flex justify-center items-center">
+                <Loading />
+            </div>
+        );
     }
 
     function handleCreate(title, description) {
         // Update data after adding new data
-        addData(title, description);
+        if (title.trim().length !== 0 || description.trim().length !== 0) {
+            addData(title, description);
 
-        const newData = readDatabase();
-        newData.then((data) => {
-            setDataCard(data);
-        });
+            const newData = readDatabase();
+            newData.then((data) => {
+                setDataCard(data);
+            });
+        } else {
+            throw new Error("Judul dan isi tidak boleh kosong!");
+        }
     }
 
     function handleDelete(id) {
@@ -63,13 +67,17 @@ function App() {
     }
 
     function handleUpdate(id, newTitle, newDescription) {
-        updateData(id, newTitle, newDescription);
+        // Update data after adding new data
+        if (newTitle.trim().length !== 0 || newDescription.trim().length !== 0) {
+            updateData(newTitle, newDescription);
 
-        // Update data after updating data
-        const newData = readDatabase();
-        newData.then((data) => {
-            setDataCard(data);
-        });
+            const newData = readDatabase();
+            newData.then((data) => {
+                setDataCard(data);
+            });
+        } else {
+            throw new Error("Judul dan isi tidak boleh kosong!");
+        }
     }
 
     return (

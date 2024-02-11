@@ -22,11 +22,11 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-async function addData($title, $description) {
+async function addData(title, description) {
     try {
         const docRef = await addDoc(collection(db, "blog"), {
-            title: $title,
-            description: $description,
+            title: title,
+            description: description,
             date: Date.now(),
         });
         console.log("Document written with ID: ", docRef.id);

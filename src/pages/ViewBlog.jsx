@@ -1,7 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import View from "../components/View";
-import { useState } from "react";
 
 function ViewBlog({ dataCard, handleDelete }) {
     const [searchParams] = useSearchParams();
