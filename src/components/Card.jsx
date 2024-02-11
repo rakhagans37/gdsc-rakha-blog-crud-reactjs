@@ -7,7 +7,7 @@ function Card({id, title, description, handleDelete, handleUpdate}) {
     return (
         <div className="w-72 h-max flex flex-col rounded-md bg-[#EDEDED] overflow-hidden shadow-md">
             <Link to={`/viewblog?id=${id}`} className="w-full h-48 bg-[#B4B4B4]">
-                <img src="https://source.unsplash.com/random/500x500" alt="blog" className="w-full h-full object-cover" />
+                
             </Link>
             <div className="px-3 flex flex-col">
                 <Link to={`/viewblog?id=${id}`} className="py-3 border-b-2 border-[rgba(0, 0, 0, 0.2)]">
@@ -15,8 +15,8 @@ function Card({id, title, description, handleDelete, handleUpdate}) {
                     <p className="text-black font-normal text-left text-sm mt-1 font-sans break-all">{descriptionSlice}</p>
                 </Link>
                 <div className="flex flex-row justify-between py-3">
-                    <button className="underline font-medium text-sm font-sans" onClick={() => {handleUpdate(id)}}>Edit</button>
-                    <button className="underline font-medium text-sm font-sans" onClick={() => {handleDelete(id)}}>Hapus</button>
+                    <button className="underline font-medium text-sm font-sans" onClick={handleUpdate}>Edit</button>
+                    <button className="underline font-medium text-sm font-sans" onClick={handleDelete}>Hapus</button>
                 </div>
             </div>
         </div>

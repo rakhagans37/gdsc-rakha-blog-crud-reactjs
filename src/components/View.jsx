@@ -1,4 +1,4 @@
-function View({ id, handleDelete, handleUpdate, title, description, date}) {
+function View({ handleDelete, handleUpdate, title, description, date}) {
     return (
         <>
             <div className="w-screen flex-col items-center">
@@ -14,9 +14,9 @@ function View({ id, handleDelete, handleUpdate, title, description, date}) {
                         <div className="w-full flex flex-row justify-between">
                             <h2>{date}</h2>
                             <div className="flex flex-row w-max gap-[25px]">
-                                <button className="underline font-sans font-medium text-xl" onClick={() => {handleUpdate(id)}}>Edit</button>
+                                <button className="underline font-sans font-medium text-xl" onClick={handleUpdate}>Edit</button>
                                 <span className=" border-r border-black"></span>
-                                <button className="underline font-sans font-medium text-xl" onClick={() => {handleDelete(id)}}>Hapus</button>
+                                <button className="underline font-sans font-medium text-xl" onClick={handleDelete}>Hapus</button>
                             </div>
                         </div>
 

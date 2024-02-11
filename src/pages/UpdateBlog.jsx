@@ -4,39 +4,52 @@ import Header from "../components/Header";
 import Update from "../components/Update";
 import ErrorCard from "../components/ErrorCard";
 
-function UpdateBlog({dataCard, handleUpdate}) {
+function UpdateBlog({ dataCard, handleUpdate }) {
     const [searchParams] = useSearchParams();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
+    // Getting data
     let id = searchParams.get("id");
-    let dataView = dataCard.filter((item) => item.id == id)[0];
+    let dataView = dataCard.find((item) => item.id === id);
+    // End of getting data
 
+    // Set title and description
     useEffect(() => {
         if (dataView) {
             setTitle(dataView.title);
             setDescription(dataView.description);
         }
     }, []);
-    
-    const navigate = useNavigate();
+    // End of set title and description
 
-    const handleSubmit = (event) =>{
+    // Function to handle update
+    function handleSubmit(event) {
         event.preventDefault();
+
+        // Reset error message
         try {
             handleUpdate(id, title, description);
             navigate("/");
         } catch (error) {
-            setError(<ErrorCard message={error.message} />);
+            // Set error message
+            setError(error.message);
         }
     }
+    // End of function to handle update
 
     return (
         <>
             <Header handleSubmit={handleSubmit} />
-            {error}
-            <Update title={title} description={description} setTitle={setTitle} setDescription={setDescription} />
+            <ErrorCard message={error} />
+            <Update
+                title={title}
+                description={description}
+                setTitle={setTitle}
+                setDescription={setDescription}
+            />
         </>
     );
 }

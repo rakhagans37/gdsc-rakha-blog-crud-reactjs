@@ -6,10 +6,13 @@ import Header from "../components/Header.jsx";
 function Home({ dataCard, handleDelete }) {
     const navigate = useNavigate();
 
+    // Function to handle clicked update
     function goToUpdate(id) {
         navigate(`/updateblog?id=${id}`)
     }
+    // End of function to handle update
 
+    // Rendering
     return (
         <>
             <Header />
@@ -24,8 +27,8 @@ function Home({ dataCard, handleDelete }) {
                             key={item.id}
                             title={item.title}
                             description={item.description}
-                            handleDelete={handleDelete}
-                            handleUpdate={goToUpdate}
+                            handleDelete={() => handleDelete(item.id)}
+                            handleUpdate={() => goToUpdate(item.id)}
                             id={item.id}
                         />
                     ))}

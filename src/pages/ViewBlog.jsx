@@ -4,25 +4,23 @@ import View from "../components/View";
 
 function ViewBlog({ dataCard, handleDelete }) {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const id = searchParams.get("id");
 
-    //Getting storage
-    const dataView = dataCard.filter((item) => item.id == id)[0] || {};
+    // Getting data
+    const dataView = dataCard.find((item) => item.id === id);
+    // End of getting data
 
-    // Getting date
+    // Getting date, title, and description
     const date = new Date(dataView.date);
     const formattedDate = date.toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "short",
         year: "numeric",
     });
-
-    // Getting tittle, description
     const title = dataView.title;
     const description = dataView.description;
-
-    // Navigate
-    const navigate = useNavigate();
+    // End of getting date, title, and description
 
     //Function to handle update and delete
     function goToUpdate(id) {
@@ -33,14 +31,15 @@ function ViewBlog({ dataCard, handleDelete }) {
         handleDelete(id);
         navigate("/");
     }
+    // End of function to handle update and delete
 
+    // Rendering
     return (
         <>
             <Header />
             <View
-                id={id}
-                handleDelete={deleteBlog}
-                handleUpdate={goToUpdate}
+                handleDelete={() => deleteBlog(id)}
+                handleUpdate={() => goToUpdate(id)}
                 title={title}
                 description={description}
                 date={formattedDate}

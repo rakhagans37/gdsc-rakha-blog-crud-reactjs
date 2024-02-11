@@ -1,6 +1,7 @@
 import React from "react";
 
 const ErrorCard = ({ message }) => {
+    if (!message) return null;
     return (
         <div className="w-screen flex justify-center mt-4">
             <div

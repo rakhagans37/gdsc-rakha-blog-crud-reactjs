@@ -1,20 +1,13 @@
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-import firebase from "firebase/compat/app";
-// Required for side-effects
-import "firebase/firestore";
-
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC5gNhHMBZj8vrRePZLesiPr-igJxY7Lsw",
-    authDomain: "rakha-crud-react.firebaseapp.com",
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
     projectId: "rakha-crud-react",
-    storageBucket: "rakha-crud-react.appspot.com",
-    messagingSenderId: "681560776625",
-    appId: "1:681560776625:web:f52db21c11b1d756ff2790",
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
 };
 
 // Initialize Firebase
@@ -25,8 +18,8 @@ const db = getFirestore(app);
 async function addData(title, description) {
     try {
         const docRef = await addDoc(collection(db, "blog"), {
-            title: title,
-            description: description,
+            title,
+            description,
             date: Date.now(),
         });
         console.log("Document written with ID: ", docRef.id);
@@ -35,18 +28,22 @@ async function addData(title, description) {
     }
 }
 
-async function readDatabase(){
-    const querySnapshot = await getDocs(collection(db, "blog"));
+async function readDatabase() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "blog"));
 
-    let data = [];
-    querySnapshot.forEach((doc) => {
-        data.push({id: doc.id, ...doc.data()});
-    });
+        const data = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
 
-    return data;
+        return data;
+    } catch (error) {
+        return null;
+    }
 }
 
-async function deleteData(id){
+async function deleteData(id) {
     try {
         await deleteDoc(doc(db, "blog", id));
     } catch (e) {
@@ -54,14 +51,12 @@ async function deleteData(id){
     }
 }
 
-async function updateData(id, title, description){
+async function updateData(id, title, description) {
     const docRef = doc(db, "blog", id);
     await updateDoc(docRef, {
-        title: title,
-        description: description,
+        title,
+        description,
     });
 }
-
-
 
 export { addData, readDatabase, deleteData, updateData };

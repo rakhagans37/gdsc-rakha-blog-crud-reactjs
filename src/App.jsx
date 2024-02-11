@@ -1,14 +1,8 @@
-import ReactDOM from "react-dom/client";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    useSearchParams,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Home from "./pages/Home.jsx";
 import CreateBlog from "./pages/CreateBlog.jsx";
-import { useEffect, useState } from "react";
 import UpdateBlog from "./pages/UpdateBlog.jsx";
 import ViewBlog from "./pages/ViewBlog.jsx";
 import {
@@ -20,7 +14,7 @@ import {
 import Loading from "./components/Loading.jsx";
 
 function App() {
-    const [dataCard, setDataCard] = useState([]);
+    const [dataCard, setDataCard] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -28,11 +22,11 @@ function App() {
         getData.then((data) => {
             setDataCard(data);
         });
-
-        if (dataCard) {
-            setTimeout(() => setIsLoading(false), 1000);
-        }
     }, []);
+
+    if (dataCard) {
+        setTimeout(() => setIsLoading(false), 1000);
+    }
 
     if (isLoading) {
         return (
@@ -44,11 +38,10 @@ function App() {
 
     function handleCreate(title, description) {
         // Update data after adding new data
-        if (title.trim().length !== 0 || description.trim().length !== 0) {
+        if (title.trim() && description.trim()) {
             addData(title, description);
 
-            const newData = readDatabase();
-            newData.then((data) => {
+            readDatabase().then((data) => {
                 setDataCard(data);
             });
         } else {
@@ -60,19 +53,17 @@ function App() {
         deleteData(id);
 
         // Update data after deleting data
-        const newData = readDatabase();
-        newData.then((data) => {
+        readDatabase().then((data) => {
             setDataCard(data);
         });
     }
 
     function handleUpdate(id, newTitle, newDescription) {
         // Update data after adding new data
-        if (newTitle.trim().length !== 0 || newDescription.trim().length !== 0) {
-            updateData(newTitle, newDescription);
+        if (newTitle.trim() && newDescription.trim()) {
+            updateData(id, newTitle, newDescription);
 
-            const newData = readDatabase();
-            newData.then((data) => {
+            readDatabase().then((data) => {
                 setDataCard(data);
             });
         } else {
@@ -85,9 +76,7 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={
-                        <Home dataCard={dataCard} handleDelete={handleDelete} />
-                    }
+                    element={<Home dataCard={dataCard} handleDelete={handleDelete} />}
                 />
                 <Route
                     path="/createblog"
@@ -96,19 +85,13 @@ function App() {
                 <Route
                     path="/updateblog"
                     element={
-                        <UpdateBlog
-                            dataCard={dataCard}
-                            handleUpdate={handleUpdate}
-                        />
+                        <UpdateBlog dataCard={dataCard} handleUpdate={handleUpdate} />
                     }
                 />
                 <Route
                     path="/viewblog"
                     element={
-                        <ViewBlog
-                            dataCard={dataCard}
-                            handleDelete={handleDelete}
-                        />
+                        <ViewBlog dataCard={dataCard} handleDelete={handleDelete} />
                     }
                 />
             </Routes>

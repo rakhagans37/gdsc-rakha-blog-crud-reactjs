@@ -10,20 +10,26 @@ function CreateBlog({ handleCreate }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    // Function to handle create
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        // Reset error message
         try {
-            event.preventDefault();
             handleCreate(title, description);
             navigate("/");
         } catch (error) {
-            setError(<ErrorCard message={error.message} />);
+            // Set error message
+            setError(error.message);
         }
-    };
+    }
+    // End of function to handle create
 
+    // Rendering
     return (
         <>
             <Header handleSubmit={handleSubmit} />
-            {error}
+            <ErrorCard message={error} />
             <Create
                 title={title}
                 description={description}
