@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 
 function Header({ handleSubmit }) {
@@ -14,13 +14,14 @@ function Header({ handleSubmit }) {
                         <Link to={"/"} className="text-blue-950 text-2xl font-semibold">
                             Blog GDSC Telyu
                         </Link>
-                        <button className="py-2 px-6 bg-blue-950 text-white rounded">
-                            <Link to="/createblog">Buat Blog</Link>
-                        </button>
+                        <Link to="/createblog">
+                            <button className="py-2 px-6 bg-blue-950 text-white rounded">
+                                Buat Blog
+                            </button>
+                        </Link>
+                        
                     </div>
                 </div>
-
-                <Outlet />
             </>
         );
     } else if (window.location.pathname === "/createblog") {
@@ -28,19 +29,15 @@ function Header({ handleSubmit }) {
             <>
                 <div className=" w-screen border-b-2">
                     <div className="flex justify-between px-9 py-6">
-                        <button>
-                            <div>
-                                <Link
-                                    to="/"
-                                    className="flex flex-row items-center gap-1"
-                                >
-                                    <IoChevronBack size={32} />
-                                    <span className="text-base font-semibold">
-                                        Kembali
-                                    </span>
-                                </Link>
-                            </div>
-                        </button>
+                        <Link
+                            to="/"
+                            className="flex flex-row items-center gap-1"
+                        >
+                            <IoChevronBack size={32} />
+                            <span className="text-base font-semibold">
+                                Kembali
+                            </span>
+                        </Link>
                         <button
                             className="py-2 px-6 bg-blue-950 text-white rounded"
                             onClick={handleSubmit}
@@ -49,8 +46,6 @@ function Header({ handleSubmit }) {
                         </button>
                     </div>
                 </div>
-
-                <Outlet />
             </>
         );
     } else if (window.location.pathname === "/updateblog") {
@@ -58,19 +53,15 @@ function Header({ handleSubmit }) {
             <>
                 <div className=" w-screen border-b-2">
                     <div className="flex justify-between px-9 py-6">
-                        <button>
-                            <div>
-                                <Link
-                                    to="/"
-                                    className="flex flex-row items-center gap-1"
-                                >
-                                    <IoChevronBack size={32} />
-                                    <span className="text-base font-semibold">
-                                        Kembali
-                                    </span>
-                                </Link>
-                            </div>
-                        </button>
+                        <Link
+                            to="/"
+                            className="flex flex-row items-center gap-1"
+                        >
+                            <IoChevronBack size={32} />
+                            <span className="text-base font-semibold">
+                                Kembali
+                            </span>
+                        </Link>
                         <button
                             className="py-2 px-6 bg-blue-950 text-white rounded"
                             onClick={handleSubmit}
@@ -79,8 +70,6 @@ function Header({ handleSubmit }) {
                         </button>
                     </div>
                 </div>
-
-                <Outlet />
             </>
         );
     }

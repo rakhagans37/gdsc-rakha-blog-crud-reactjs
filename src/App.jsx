@@ -12,21 +12,20 @@ import {
     updateData,
 } from "./database/Database.jsx";
 import Loading from "./components/Loading.jsx";
+import ErrorCard from "./components/ErrorCard.jsx";
 
 function App() {
-    const [dataCard, setDataCard] = useState(null);
+    const [dataCard, setDataCard] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const getData = readDatabase();
-        getData.then((data) => {
-            setDataCard(data);
+        readDatabase().then((data) => {
+            if (data) {
+                setDataCard(data);
+                setIsLoading(false);
+            }
         });
     }, []);
-
-    if (dataCard) {
-        setTimeout(() => setIsLoading(false), 1000);
-    }
 
     if (isLoading) {
         return (
@@ -37,38 +36,30 @@ function App() {
     }
 
     function handleCreate(title, description) {
-        // Update data after adding new data
-        if (title.trim() && description.trim()) {
-            addData(title, description);
-
-            readDatabase().then((data) => {
-                setDataCard(data);
-            });
-        } else {
+        if (!title.trim() || !description.trim()) {
             throw new Error("Judul dan isi tidak boleh kosong!");
         }
+
+        // Update data after adding new data
+        addData(title, description);
+        readDatabase().then((data) => setDataCard(data));
     }
 
     function handleDelete(id) {
         deleteData(id);
 
         // Update data after deleting data
-        readDatabase().then((data) => {
-            setDataCard(data);
-        });
+        window.location.reload();
     }
 
     function handleUpdate(id, newTitle, newDescription) {
-        // Update data after adding new data
-        if (newTitle.trim() && newDescription.trim()) {
-            updateData(id, newTitle, newDescription);
-
-            readDatabase().then((data) => {
-                setDataCard(data);
-            });
-        } else {
+        if (!newTitle.trim() || !newDescription.trim()) {
             throw new Error("Judul dan isi tidak boleh kosong!");
         }
+
+        // Update data after adding new data
+        updateData(id, newTitle, newDescription);
+        readDatabase().then((data) => setDataCard(data));
     }
 
     return (
@@ -76,7 +67,9 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={<Home dataCard={dataCard} handleDelete={handleDelete} />}
+                    element={
+                        <Home dataCard={dataCard} handleDelete={handleDelete} />
+                    }
                 />
                 <Route
                     path="/createblog"
@@ -85,13 +78,19 @@ function App() {
                 <Route
                     path="/updateblog"
                     element={
-                        <UpdateBlog dataCard={dataCard} handleUpdate={handleUpdate} />
+                        <UpdateBlog
+                            dataCard={dataCard}
+                            handleUpdate={handleUpdate}
+                        />
                     }
                 />
                 <Route
                     path="/viewblog"
                     element={
-                        <ViewBlog dataCard={dataCard} handleDelete={handleDelete} />
+                        <ViewBlog
+                            dataCard={dataCard}
+                            handleDelete={handleDelete}
+                        />
                     }
                 />
             </Routes>

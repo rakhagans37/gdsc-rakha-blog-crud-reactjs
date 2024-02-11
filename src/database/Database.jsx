@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, getDoc, doc, deleteDoc, updateDoc, queryEqual } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -17,29 +17,25 @@ const db = getFirestore(app);
 
 async function addData(title, description) {
     try {
-        const docRef = await addDoc(collection(db, "blog"), {
+        await addDoc(collection(db, "blog"), {
             title,
             description,
             date: Date.now(),
         });
-        console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
 }
 
 async function readDatabase() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "blog"));
-
+    const querySnapshot = await getDocs(collection(db, "blog"));
+    if(!querySnapshot.metadata.fromCache) {
         const data = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         }));
-
+    
         return data;
-    } catch (error) {
-        return null;
     }
 }
 

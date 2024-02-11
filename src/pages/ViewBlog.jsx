@@ -6,12 +6,7 @@ function ViewBlog({ dataCard, handleDelete }) {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const id = searchParams.get("id");
-
-    // Getting data
     const dataView = dataCard.find((item) => item.id === id);
-    // End of getting data
-
-    // Getting date, title, and description
     const date = new Date(dataView.date);
     const formattedDate = date.toLocaleDateString("id-ID", {
         day: "2-digit",

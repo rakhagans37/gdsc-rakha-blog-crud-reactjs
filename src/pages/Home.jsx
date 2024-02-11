@@ -1,6 +1,5 @@
-import { useState } from "react";
 import Card from "../components/Card.jsx";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
 
 function Home({ dataCard, handleDelete }) {
