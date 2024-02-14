@@ -26,7 +26,8 @@ function Home({ dataCard, handleDelete }) {
                             key={item.id}
                             title={item.title}
                             description={item.description}
-                            handleDelete={() => handleDelete(item.id)}
+                            imageUrl={item.imageUrl}
+                            handleDelete={() => handleDelete(item.id, item.image)}
                             handleUpdate={() => goToUpdate(item.id)}
                             id={item.id}
                         />

@@ -7,6 +7,7 @@ import ErrorCard from "../components/ErrorCard";
 function CreateBlog({ handleCreate }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [image, setImage] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -16,8 +17,7 @@ function CreateBlog({ handleCreate }) {
 
         // Reset error message
         try {
-            handleCreate(title, description);
-            navigate("/");
+            handleCreate(title, description, image)
         } catch (error) {
             // Set error message
             setError(error.message);
@@ -33,6 +33,8 @@ function CreateBlog({ handleCreate }) {
             <Create
                 title={title}
                 description={description}
+                image={image}
+                setImage={setImage}
                 setTitle={setTitle}
                 setDescription={setDescription}
             />

@@ -15,12 +15,13 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-async function addData(title, description) {
+async function addData(title, description, image) {
     try {
         await addDoc(collection(db, "blog"), {
             title,
             description,
             date: Date.now(),
+            image,
         });
     } catch (e) {
         console.error("Error adding document: ", e);

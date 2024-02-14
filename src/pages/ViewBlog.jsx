@@ -15,6 +15,7 @@ function ViewBlog({ dataCard, handleDelete }) {
     });
     const title = dataView.title;
     const description = dataView.description;
+    const imageUrl = dataView.imageUrl;
     // End of getting date, title, and description
 
     //Function to handle update and delete
@@ -22,8 +23,8 @@ function ViewBlog({ dataCard, handleDelete }) {
         navigate(`/updateblog?id=${id}`);
     }
 
-    function deleteBlog(id) {
-        handleDelete(id);
+    function deleteBlog(id, imageName) {
+        handleDelete(id, imageName);
         navigate("/");
     }
     // End of function to handle update and delete
@@ -33,11 +34,12 @@ function ViewBlog({ dataCard, handleDelete }) {
         <>
             <Header />
             <View
-                handleDelete={() => deleteBlog(id)}
+                handleDelete={() => deleteBlog(id, dataView.image)}
                 handleUpdate={() => goToUpdate(id)}
                 title={title}
                 description={description}
                 date={formattedDate}
+                imageUrl={imageUrl}
             />
         </>
     );

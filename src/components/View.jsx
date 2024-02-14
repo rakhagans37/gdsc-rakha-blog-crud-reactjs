@@ -1,10 +1,10 @@
-function View({ handleDelete, handleUpdate, title, description, date}) {
+function View({ handleDelete, handleUpdate, title, description, date, imageUrl}) {
     return (
         <>
             <div className="w-screen flex-col items-center">
                 <div className="flex flex-col pt-8 px-[420px] gap-8">
-                    <div className="bg-[#B4B4B4] w-full h-60 rounded-md">
-
+                    <div className="bg-[#B4B4B4] w-full h-60 rounded-md overflow-hidden">
+                        <img src={imageUrl} alt="image" className="w-full h-full object-cover" />
                     </div>
 
                     {/* Keterangan */}
